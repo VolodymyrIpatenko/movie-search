@@ -5,11 +5,20 @@ export const Main = styled.main`
   place-content: center;
 `;
 
+export const SearchSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const MoviesSection = styled.ul`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 120px;
-  padding: 50px;
+  @media screen and (min-width: 1199px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 120px;
+    padding: 50px;
+  }
 `;
 
 export const MovieItem = styled.li`

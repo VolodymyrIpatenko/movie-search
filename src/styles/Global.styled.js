@@ -11,7 +11,7 @@ export const Global = createGlobalStyle`
 	padding:0;
  }
  ul{
-	list-style:none;
+  list-style:none;
  }
 `;
 

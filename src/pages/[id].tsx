@@ -1,9 +1,12 @@
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import axios from "axios";
-import type MovieDetails from "@/entities/MoviesDetails";
-import { MovieDetailsCard, MovieCardDescription } from "@/styles/MovieDetails.styled";
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import axios from 'axios';
+import type MovieDetails from '@/entities/MoviesDetails';
+import {
+  MovieDetailsCard,
+  MovieCardDescription,
+} from '@/styles/MovieDetails.styled';
 
 const MoviePage = () => {
   const router = useRouter();
@@ -25,18 +28,18 @@ const MoviePage = () => {
   if (!movieDetails) {
     return <div>Loading...</div>;
   }
- 
+
   const { Title, Poster, Plot, Year, Actors, imdbRating } = movieDetails;
   return (
     <>
       <MovieDetailsCard>
-      <h1>{Title}</h1>
-      <Image src={Poster} alt={Title} width="300" height="400"/>
+        <h1>{Title}</h1>
+        <Image src={Poster} alt={Title} width="300" height="400" />
         <MovieCardDescription>
-      <p>Year of release:{Year}</p>
-      <p>Plot: {Plot}</p>
-      <p>Actors: {Actors}</p>
-      <p>IMDB Rating: {imdbRating}</p>
+          <p>Year of release:{Year}</p>
+          <p>Plot: {Plot}</p>
+          <p>Actors: {Actors}</p>
+          <p>IMDB Rating: {imdbRating}</p>
         </MovieCardDescription>
       </MovieDetailsCard>
     </>
@@ -44,3 +47,4 @@ const MoviePage = () => {
 };
 
 export default MoviePage;
+

@@ -1,52 +1,57 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import {Main,MoviesSection,MovieItem,SearchButton,DetailsBtn,InputElem} from "@/styles/Main.styled"
-import { useState } from "react";
-import axios from "axios";
-import type Movie from "@/entities/MovieData"
-import { useRouter } from "next/router";
+import Head from 'next/head';
+import Image from 'next/image';
+import {
+  Main,
+  MoviesSection,
+  MovieItem,
+  SearchButton,
+  DetailsBtn,
+  InputElem,
+  SearchSection,
+} from '@/styles/Main.styled';
+import { useState } from 'react';
+import axios from 'axios';
+import type Movie from '@/entities/MovieData';
+import { useRouter } from 'next/router';
 
 type SearchResponse = {
   Search: Movie[];
 };
 
-
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [searchError, setSearchError] = useState("");
-  
+  const [searchError, setSearchError] = useState('');
 
-  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setSearchQuery(event.target.value);
   };
 
   const router = useRouter();
-  
-  const handleClick = (movieId: string) => {
-  router.push(`${movieId}`);
-};
 
-  
- const handleSearch = async () => {
-   if (!searchQuery.trim()) return;
+  const handleClick = (movieId: string) => {
+    router.push(`${movieId}`);
+  };
+
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) return;
 
     const response = await axios.get<SearchResponse>(
       `http://www.omdbapi.com/?s=${searchQuery}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`
     );
-   
-   console.log(response);
-   
-   if (response.data?.Search) {
-    const moviesWithIds = response.data.Search.map((movie) => ({
-      ...movie,
-      imdbID: movie.imdbID,
-    }));
-    setMovies(moviesWithIds);
-    setSearchError("");
-  } else {
+
+    if (response.data?.Search) {
+      const moviesWithIds = response.data.Search.map(movie => ({
+        ...movie,
+        imdbID: movie.imdbID,
+      }));
+      setMovies(moviesWithIds);
+      setSearchError('');
+    } else {
       setMovies([]);
-      setSearchError("No results found. Please try a different search query.");
+      setSearchError('No results found. Please try a different search query.');
     }
   };
 
@@ -59,33 +64,39 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main>
-       
-      <h1 style={{textAlign: 'center'}}>Movie Search App</h1>
+        <h1 style={{ textAlign: 'center' }}>Movie Search App</h1>
 
-        <div style={{ display: "flex", justifyContent:"center",alignItems: "center"}}>
-        <InputElem type="text" value={searchQuery} onChange={handleSearchInputChange} />
-        <SearchButton  onClick={handleSearch}>Search</SearchButton>
-      </div>
+        <SearchSection>
+          <InputElem
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchInputChange}
+          />
+          <SearchButton onClick={handleSearch}>Search</SearchButton>
+        </SearchSection>
 
-      <section>
+        <section>
           <MoviesSection>
             {searchError ? (
-          <p>{searchError}</p>
-        ) : (
-          movies.map(({imdbID,Title,Type,Year,Poster}) => (
-            <MovieItem key={imdbID} >
-              <Image src={Poster} alt={Title} width="300" height="400"/>
-              <p>{Title}</p>
-              <p>{Year}</p>
-              <p>{Type}</p>
-              <DetailsBtn onClick={() => handleClick(imdbID)}>More about movie</DetailsBtn>
-            </MovieItem>
-          ))
-        )}
-        </MoviesSection>
-      </section>
-    
+              <p>{searchError}</p>
+            ) : (
+              movies.map(({ imdbID, Title, Type, Year, Poster }) => (
+                <MovieItem key={imdbID}>
+                  <Image src={Poster} alt={Title} width="300" height="400" />
+                  <p>{Title}</p>
+                  <p>{Year}</p>
+                  <p>{Type}</p>
+
+                  <DetailsBtn onClick={() => handleClick(imdbID)}>
+                    More about movie
+                  </DetailsBtn>
+                </MovieItem>
+              ))
+            )}
+          </MoviesSection>
+        </section>
       </Main>
     </>
-  )
+  );
 }
+
