@@ -16,7 +16,7 @@ export const MoviesSection = styled.ul`
   @media screen and (min-width: 1199px) {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 150px;
+    gap: 155px;
     padding: 50px;
   }
 `;
