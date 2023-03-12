@@ -39,7 +39,7 @@ export default function Home() {
     if (!searchQuery.trim()) return;
 
     const response = await axios.get<SearchResponse>(
-      `http://www.omdbapi.com/?s=${searchQuery}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`
+      `http://www.omdbapi.com/?s=${searchQuery}&apikey=9002be4f`
     );
 
     if (response.data?.Search) {
@@ -68,7 +68,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main>
-        <h1 style={{ textAlign: 'center' }}>Movie Search App</h1>
+        <h1 style={{ textAlign: 'center' }}>Movie App</h1>
 
         <SearchSection>
           <InputElem
