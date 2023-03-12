@@ -1,25 +1,15 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
+import {Main,MoviesSection,MovieItem,SearchButton,DetailsBtn,InputElem} from "@/styles/Main.styled"
 import { useState } from "react";
 import axios from "axios";
+import type Movie from "@/entities/MovieData"
 import { useRouter } from "next/router";
-
-
-type Movie = {
-  Title: string;
-  Year: string;
-  imdbID: string;
-  Type: string;
-  Poster: string;
-};
 
 type SearchResponse = {
   Search: Movie[];
 };
 
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,8 +23,6 @@ export default function Home() {
 
   const router = useRouter();
   
-  // console.log(router);
-
   const handleClick = (movieId: string) => {
   router.push(`${movieId}`);
 };
@@ -70,31 +58,34 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-       <div>
-      <h1>Movie Search App</h1>
+      <Main>
+       
+      <h1 style={{textAlign: 'center'}}>Movie Search App</h1>
 
-      <div>
-        <input type="text" value={searchQuery} onChange={handleSearchInputChange} />
-        <button onClick={handleSearch}>Search</button>
+        <div style={{ display: "flex", justifyContent:"center",alignItems: "center"}}>
+        <InputElem type="text" value={searchQuery} onChange={handleSearchInputChange} />
+        <SearchButton  onClick={handleSearch}>Search</SearchButton>
       </div>
 
-      <div>
-        {searchError ? (
+      <section>
+          <MoviesSection>
+            {searchError ? (
           <p>{searchError}</p>
         ) : (
-          movies.map((movie) => (
-            <div key={movie.imdbID} onClick={() => handleClick(movie.imdbID)}>
-              <img src={movie.Poster} alt={movie.Title} />
-              <p>{movie.Title}</p>
-              <p>{movie.Year}</p>
-              <p>{movie.Type}</p>
-            </div>
+          movies.map(({imdbID,Title,Type,Year,Poster}) => (
+            <MovieItem key={imdbID} >
+              <Image src={Poster} alt={Title} width="300" height="400"/>
+              <p>{Title}</p>
+              <p>{Year}</p>
+              <p>{Type}</p>
+              <DetailsBtn onClick={() => handleClick(imdbID)}>More about movie</DetailsBtn>
+            </MovieItem>
           ))
         )}
-      </div>
-    </div>
-      </main>
+        </MoviesSection>
+      </section>
+    
+      </Main>
     </>
   )
 }

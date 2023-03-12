@@ -1,20 +1,13 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import axios from "axios";
-
-type MovieDetails = {
-  Title: string;
-  Year: string;
-  Plot: string;
-  Actors: string;
-  imdbRating: string;
-  Poster: string;
-};
+import type MovieDetails from "@/entities/MoviesDetails";
+import { MovieDetailsCard, MovieCardDescription } from "@/styles/MovieDetails.styled";
 
 const MoviePage = () => {
   const router = useRouter();
   const { id } = router.query;
-  console.log(router)
   const [movieDetails, setMovieDetails] = useState<MovieDetails>();
 
   useEffect(() => {
@@ -23,7 +16,6 @@ const MoviePage = () => {
         `http://www.omdbapi.com/?i=${id}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`
       );
       setMovieDetails(response.data);
-      console.log(movieDetails)
     };
     if (id) {
       fetchMovieDetails();
@@ -33,15 +25,20 @@ const MoviePage = () => {
   if (!movieDetails) {
     return <div>Loading...</div>;
   }
-
+ 
+  const { Title, Poster, Plot, Year, Actors, imdbRating } = movieDetails;
   return (
     <>
-      <h1>{movieDetails.Title}</h1>
-      <img src={movieDetails.Poster} alt={movieDetails.Title} />
-      <p>{movieDetails.Year}</p>
-      <p>{movieDetails.Plot}</p>
-      <p>Actors: {movieDetails.Actors}</p>
-      <p>IMDB Rating: {movieDetails.imdbRating}</p>
+      <MovieDetailsCard>
+      <h1>{Title}</h1>
+      <Image src={Poster} alt={Title} width="300" height="400"/>
+        <MovieCardDescription>
+      <p>Year of release:{Year}</p>
+      <p>Plot: {Plot}</p>
+      <p>Actors: {Actors}</p>
+      <p>IMDB Rating: {imdbRating}</p>
+        </MovieCardDescription>
+      </MovieDetailsCard>
     </>
   );
 };
