@@ -1,4 +1,4 @@
-# Movie-Searc-App
+# Movie-Search-App
 
 ### [Site link](https://movie-search-eight-taupe.vercel.app/)
 
