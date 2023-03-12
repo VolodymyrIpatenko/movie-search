@@ -26,7 +26,7 @@ const MoviePage = () => {
   }, [id]);
 
   if (!movieDetails) {
-    return <div>Loading...</div>;
+    return <div>Loading.....</div>;
   }
 
   const { Title, Poster, Plot, Year, Actors, imdbRating } = movieDetails;
